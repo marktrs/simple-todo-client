@@ -1,5 +1,12 @@
-<script>
-	import '../app.postcss';
+<script lang="ts">
+	import '../app.postcss'
+	import Navbar from './navbar.svelte'
+	import Toast from './toast.svelte'
 </script>
 
-<slot />
+<Toast />
+<Navbar />
+
+<main>
+	<slot />
+</main>
