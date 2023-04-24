@@ -2,11 +2,13 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
+		interface Error {}
+		interface Locals {
+			jwt: import('$lib/types').Components['schemas']['jwt'] | null
+		}
+		interface PageData {}
+		interface Platform {}
 	}
 }
 
-export {};
+export {}
