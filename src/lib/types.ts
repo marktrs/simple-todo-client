@@ -1,4 +1,3 @@
-
 export interface Task {
 	id: number
 	completed: boolean
@@ -14,10 +13,7 @@ export interface Components {
 			user: {
 				id: string
 				username: string
-				tasks: any[]
 			}
-		},
-		task: Task
+		}
 	}
 }
-

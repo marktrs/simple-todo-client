@@ -21,7 +21,7 @@
 		timeout()
 	}
 
-	function timeout(): NodeJS.Timeout | void {
+	function timeout(): ReturnType<typeof setTimeout> | void {
 		if (--counter > 0) return setTimeout(timeout, 1000)
 		show = false
 	}
