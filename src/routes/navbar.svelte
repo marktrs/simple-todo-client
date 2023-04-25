@@ -11,7 +11,11 @@
 		</span>
 	</NavBrand>
 	<div class="flex md:order-2 gap-5">
-		<Span class="hidden sm:block my-auto font-thin capitalize">{$page.data.user.username}</Span>
+		{#if $page.data.user}
+			<Span class="hidden sm:block my-auto font-thin capitalize"
+				>Hi! {$page.data.user.username}</Span
+			>
+		{/if}
 		<DarkMode />
 		{#if $page.data.user}
 			<form use:enhance method="POST" action="?/logout">

@@ -41,8 +41,8 @@
 </script>
 
 {#if task}
-	<div class="flex items-center space-x-4">
-		<div class="flex-none w-1/12">
+	<div class="flex items-center space-x-3">
+		<div class="flex-none w-1/12 pl-0 sm:pl-2">
 			<input
 				on:click={async () => {
 					task.completed = !task.completed
@@ -51,7 +51,7 @@
 				bind:value={task.completed}
 				checked={task.completed}
 				type="checkbox"
-				class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+				class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
 			/>
 		</div>
 		<div class="flex-none w-9/12 sm:w-9/12 py-3">
@@ -61,9 +61,9 @@
 					bind:value={task.message}
 					class="
 					focus:ring-0 focus:border-0
-					text-md text-gray-900 dark:text-white {task.completed
-						? 'line-through text-gray-400 dark:text-white-500'
-						: ''}"
+					text-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 {task.completed
+						? 'line-through text-gray-500 dark:text-gray-400'
+						: 'text-gray-900 dark:text-white'}"
 				/>
 			</form>
 			<div
@@ -85,7 +85,7 @@
 				>
 					<svg
 						aria-hidden="true"
-						class="w-5 h-5"
+						class="w-4 h-4"
 						fill="currentColor"
 						viewBox="0 0 20 20"
 						xmlns="http://www.w3.org/2000/svg"
