@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  simple-todo-client:
+    image: simple-todo-client
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deploy-node
+    environment:
+      - NODE_ENV=production
+      - VITE_SIMPLE_TODO_API="http://simple-todo-api:3000/api"
+    ports:
+      - 8080:3000

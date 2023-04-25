@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 
-const base = 'http://127.0.0.1:3000/api'
+const base = import.meta.env.VITE_SIMPLE_TODO_API
 
 type Opts = {
 	method: string
