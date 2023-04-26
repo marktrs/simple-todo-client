@@ -10,6 +10,7 @@ RUN npm install -g pnpm
 FROM base AS dependencies
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
+RUN pnpm add dotenv
 RUN pnpm install
 
 ####################################################################
@@ -33,4 +34,4 @@ RUN rm -rf ./*
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY --from=build /app/package.json .
 COPY --from=build /app/build .
-CMD ["node", "index.js"]
+CMD ["node", "-r", "dotenv/config", "index.js"]

@@ -5,12 +5,14 @@
 	import { Input, Listgroup } from 'flowbite-svelte'
 	import { onMount } from 'svelte'
 	import type { PageData } from './$types'
-	import TaskItem from './taskItem.svelte'
+	import TaskItem from './task.svelte'
 
 	export let data: PageData
 
 	let tasks: Task[] = []
 	let { token } = data
+
+	const originalUrl = import.meta.env.VITE_ORIGIN_API
 
 	taskStore.subscribe(({ tasks: _tasks }) => {
 		tasks = _tasks
@@ -26,13 +28,22 @@
 
 	async function onTaskCreated() {
 		const data = new FormData(this)
-		await api.post({ path: `tasks/`, token, data: { message: data.get('message') } })
+		await api.post({
+			originalUrl,
+			path: `tasks/`,
+			token,
+			data: { message: data.get('message') }
+		})
 		await updateTask()
 		onCompleted('Task created')
 	}
 
 	async function updateTask() {
-		const response = await api.get({ path: `tasks/`, token })
+		const response = await api.get({
+			originalUrl,
+			path: `tasks/`,
+			token
+		})
 		taskStore.set({ tasks: response.tasks })
 	}
 </script>

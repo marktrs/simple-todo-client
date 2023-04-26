@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit'
 
-const base = import.meta.env.VITE_SIMPLE_TODO_API
+let base = import.meta.env.VITE_SIMPLE_TODO_API
 
 type Opts = {
 	method: string
@@ -12,12 +12,14 @@ async function send({
 	method,
 	path,
 	token,
-	data
+	data,
+	originalUrl
 }: {
 	method: string
 	path: string
 	token?: string
 	data?: object
+	originalUrl?: string
 }) {
 	const opts: Opts = { method, headers: {} }
 
@@ -28,6 +30,10 @@ async function send({
 
 	if (token) {
 		opts.headers['Authorization'] = `Bearer ${token}`
+	}
+
+	if (originalUrl) {
+		base = originalUrl
 	}
 
 	const res = await fetch(`${base}/${path}`, opts)
@@ -42,20 +48,56 @@ async function send({
 	})
 }
 
-export function get({ path, token }: { path: string; token?: string }) {
-	return send({ method: 'GET', path, token })
+export function get({
+	path,
+	token,
+	originalUrl
+}: {
+	path: string
+	token?: string
+	originalUrl?: string
+}) {
+	return send({ method: 'GET', path, token, originalUrl })
 }
 
-export function del({ path, token }: { path: string; token?: string }) {
-	return send({ method: 'DELETE', path, token })
+export function del({
+	path,
+	token,
+	originalUrl
+}: {
+	path: string
+	token?: string
+	originalUrl?: string
+}) {
+	return send({ method: 'DELETE', path, token, originalUrl })
 }
 
-export function post({ path, data, token }: { path: string; data: object; token?: string }) {
-	return send({ method: 'POST', path, data, token })
+export function post({
+	path,
+	data,
+	token,
+	originalUrl
+}: {
+	path: string
+	data: object
+	token?: string
+	originalUrl?: string
+}) {
+	return send({ method: 'POST', path, data, token, originalUrl })
 }
 
-export function put({ path, data, token }: { path: string; data: object; token?: string }) {
-	return send({ method: 'PUT', path, data, token })
+export function put({
+	path,
+	data,
+	token,
+	originalUrl
+}: {
+	path: string
+	data: object
+	token?: string
+	originalUrl?: string
+}) {
+	return send({ method: 'PUT', path, data, token, originalUrl })
 }
 
 async function getErrorMessage(res: Response) {

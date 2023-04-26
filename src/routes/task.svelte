@@ -10,10 +10,13 @@
 	export let task: Task
 	export let token: string
 
+	let isEditing: boolean = false
+
 	dayjs.extend(utc)
 	dayjs.extend(timezone)
 	dayjs.extend(relativeTime)
 
+	const originalUrl = import.meta.env.VITE_ORIGIN_API
 	const timezoneName = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 	function onCompleted(message: string) {
@@ -22,20 +25,30 @@
 
 	async function onTaskUpdate() {
 		const { id, completed, message } = task
-		await api.put({ path: `tasks/${id}`, token, data: { message, completed } })
+		await api.put({
+			originalUrl,
+			path: `tasks/${id}`,
+			token,
+			data: { message, completed }
+		})
 		await updateTask()
 		onCompleted('Task updated')
+		isEditing = false
 	}
 
 	async function onRemoveTask(task: Task) {
 		const { id } = task
-		await api.del({ path: `tasks/${id}`, token })
+		await api.del({ originalUrl, path: `tasks/${id}`, token })
 		await updateTask()
 		onCompleted('Task removed')
 	}
 
 	async function updateTask() {
-		const response = await api.get({ path: `tasks/`, token })
+		const response = await api.get({
+			originalUrl,
+			path: `tasks/`,
+			token
+		})
 		taskStore.set({ tasks: response.tasks })
 	}
 </script>
@@ -51,19 +64,38 @@
 				bind:value={task.completed}
 				checked={task.completed}
 				type="checkbox"
-				class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+				class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded-full focus:ring-blue-500
+				dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
 			/>
 		</div>
 		<div class="flex-none w-9/12 sm:w-9/12 py-3">
 			<form method="post" on:submit|preventDefault={onTaskUpdate}>
+				<span
+					on:mousedown={() => {
+						isEditing = !isEditing
+					}}
+					class="
+					overflow-auto whitespace-normal break-all
+					text-md block text-gray-900 bg-gray-0 rounded-lg border-0
+					focus:ring-gray-300 focus:border-0 dark:bg-gray-800 dark:border-0
+					dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+					resize-none w-full h-fit
+					{task.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}
+					{isEditing ? 'hidden' : 'block'}"
+				>
+					{task.message}
+				</span>
+
 				<input
+					maxlength="120"
+					required
 					name="message"
 					bind:value={task.message}
 					class="
-					focus:ring-0 focus:border-0
-					text-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 {task.completed
-						? 'line-through text-gray-500 dark:text-gray-400'
-						: 'text-gray-900 dark:text-white'}"
+					overflow-auto whitespace-normal break-all focus:ring-0 focus:border-gray-600 border-b focus:outline-0 text-md
+					dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:outline-gray-300 w-full h-fit
+					{task.completed ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}
+					{isEditing ? 'block' : 'hidden'}"
 				/>
 			</form>
 			<div

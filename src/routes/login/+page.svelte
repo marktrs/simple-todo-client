@@ -25,6 +25,7 @@
 							>Your username</label
 						>
 						<input
+							maxlength="72"
 							type="text"
 							name="username"
 							id="username"
@@ -39,6 +40,7 @@
 							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label
 						>
 						<input
+							maxlength="72"
 							type="password"
 							name="password"
 							id="password"
