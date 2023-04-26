@@ -19,7 +19,8 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			$store: path.resolve('src/store.ts')
+			$store: path.resolve('src/store.ts'),
+			$routes: path.resolve('src/routes')
 		}
 	}
 }

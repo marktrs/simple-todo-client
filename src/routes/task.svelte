@@ -10,7 +10,7 @@
 	export let task: Task
 	export let token: string
 
-	let isEditing: boolean = false
+	let isEditing = false
 
 	dayjs.extend(utc)
 	dayjs.extend(timezone)
