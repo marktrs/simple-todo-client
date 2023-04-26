@@ -6,10 +6,10 @@ on:
   pull_request:
 
 jobs:
-  linting:
+  building:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/build
-      - name: Run tests
+      - name: Run build
         run: pnpm run build
