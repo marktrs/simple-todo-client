@@ -22,7 +22,6 @@ WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN pnpm build
-RUN pnpm prune --prod
 
 ####################################################################
 # Final Stage                                                      #
