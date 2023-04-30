@@ -17,8 +17,8 @@ jobs:
       - name: Compose
         uses: isbang/compose-action@v1.4.1
         with:
-          compose-file: "docker-compose.yml"
-          up-flags: "--build"
-          down-flags: "--rmi all"
+          compose-file: 'docker-compose.yml'
+          up-flags: '--build'
+          down-flags: '--rmi all'
           services: |
             simple-todo-client
